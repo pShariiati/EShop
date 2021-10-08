@@ -1,0 +1,49 @@
+﻿@model List<EShop.ViewModels.Categories.CategoryAllFields>
+@{
+    ViewData["Title"] = "صفحه اصلی";
+}
+
+<div class="container-fluid" id="main-section-index-page">
+    <div class="row">
+        <div class="col-lg-9">
+            <vc:slider></vc:slider>
+        </div>
+        <br>
+        <div class="col-lg-3">
+            <div class="accordion" id="accordionExample">
+                @{
+                    var counter = 1;
+                }
+                @foreach (var cat in Model.Where(x => x.ParentId == null).ToList())
+                {
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading@(counter)">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse@(counter)" aria-expanded="false" aria-controls="collapse@(counter)">
+                                @cat.Title
+                            </button>
+                        </h2>
+                        <div id="collapse@(counter)" class="accordion-collapse collapse" aria-labelledby="heading@(counter++)" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <ul class="list-group" id="admin-main-menus">
+                                    @foreach (var subCat in Model.Where(x => x.ParentId == cat.Id).ToList())
+                                    {
+                                        <li class="list-group-item">
+                                            <a class="dropdown-item" asp-action="Index" asp-controller="Product" asp-area="" asp-route-selectedCategories="@subCat.Id">
+                                                @subCat.Title
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<div id="sliders">
+    <vc:newest-products exclude-id="null"></vc:newest-products>
+    <vc:best-selling-products></vc:best-selling-products>
+</div>

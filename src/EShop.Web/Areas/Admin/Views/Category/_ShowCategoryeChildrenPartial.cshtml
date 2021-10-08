@@ -1,0 +1,41 @@
+﻿@model IEnumerable<EShop.ViewModels.Categories.ShowCategory>
+@{
+    Layout = null;
+}
+<div id="category-children-table">
+    @if (Model.Any())
+    {
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id">ویرایش</a>
+                        |
+                        <form asp-action="Delete" asp-route-id="@item.Id" class="d-inline" method="post">
+                            <button class="btn btn-danger" @(item.CanRemove ? string.Empty : "disabled")>حذف</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <h3>بدون زیر دسته</h3>
+    }
+</div>

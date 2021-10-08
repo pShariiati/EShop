@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.8" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="5.0.8" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\EShop.DataLayer\EShop.DataLayer.csproj" />
+		<ProjectReference Include="..\EShop.Entities\EShop.Entities.csproj" />
+		<ProjectReference Include="..\EShop.Services\EShop.Services.csproj" />
+		<ProjectReference Include="..\EShop.ViewModels\EShop.ViewModels.csproj" />
+	</ItemGroup>
+
+</Project>

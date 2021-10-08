@@ -1,0 +1,53 @@
+﻿@model EShop.ViewModels.Account.LoginViewModel
+
+@{
+    ViewData["Title"] = "ورود به سایت";
+}
+<h3 class="text-center">
+    @ViewData["Title"]
+</h3>
+<hr />
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 mb-3 align-self-center">
+            <form asp-action="Login" id="login-page-form" asp-route-returnUrl="@ViewData["ReturnUrl"]">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="UserName" class="control-label"></label>
+                    <input asp-for="UserName" class="form-control" />
+                    <span asp-validation-for="UserName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password" class="control-label"></label>
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input asp-for="RememberMe" />
+                    <label asp-for="RememberMe" class="control-label"></label>
+                </div>
+                @*<div class="form-group my-3">
+                        <GoogleRecaptchaHelper asp-callback="loginPageRecaptchaCallBack" asp-id="login-page-recaptcha"></GoogleRecaptchaHelper>
+                    </div>*@
+                <div class="form-group">
+                    <input type="submit" value="ورود" class="btn btn-primary" />
+                </div>
+            </form>
+            @if (Model.ExternalLogins != null && Model.ExternalLogins.Any())
+            {
+                <div class="my-3 text-center">
+                    ورود با
+                    <form asp-controller="Account" asp-action="ExternalLogin" asp-route-returnUrl="@ViewData["ReturnUrl"]">
+                        @foreach (var provider in Model.ExternalLogins)
+                        {
+                            <button name="provider" type="submit" value="@provider.Name" class="btn btn-primary">
+                                @provider.DisplayName
+                            </button>
+                        }
+                    </form>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+

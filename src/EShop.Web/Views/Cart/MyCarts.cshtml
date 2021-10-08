@@ -1,0 +1,61 @@
+﻿@model IEnumerable<EShop.ViewModels.Cart.ShowCartPreviewForClientViewModel>
+
+@{
+    ViewData["Title"] = "سبد خرید های من";
+}
+
+<div class="container">
+
+    <h3>
+        @ViewData["Title"]
+    </h3>
+    <hr />
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsPay)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RefId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @((item.TotalPrice + 15000).ToString("#,0")) تومان
+                </td>
+                <td>
+                    @if (item.IsPay)
+                    {
+                        <i class="bi bi-check-square-fill text-success"></i>
+                    }
+                    else
+                    {
+                        <i class="bi bi-x-lg text-danger"></i>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RefId)
+                </td>
+                <td class="show-extra-text-in-3-dots" style="max-width: 100px">
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    <a asp-action="ShowCartDetails" asp-route-id="@item.Id" class="btn btn-info">جزییات سفارش</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

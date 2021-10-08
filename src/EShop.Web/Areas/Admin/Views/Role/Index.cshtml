@@ -1,0 +1,50 @@
+﻿@model IEnumerable<EShop.ViewModels.Roles.ShowRole>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h3>
+    @ViewData["Title"]
+    <br />
+    <a asp-action="Add" class="mt-3 btn btn-outline-info">افزودن نقش جدید</a>
+</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UsersCount)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsersCount)
+            </td>
+            <td>
+                <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id">ویرایش</a>
+                |
+                <form asp-action="Delete" asp-route-roleId="@item.Id" class="d-inline" method="post">
+                    @if (item.UsersCount > 0)
+                    {
+                        <button type="submit" class="btn btn-danger" disabled="disabled">حذف</button>
+                    }
+                    else
+                    {
+                        <button type="submit" class="btn btn-danger">حذف</button>
+                    }
+                </form>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

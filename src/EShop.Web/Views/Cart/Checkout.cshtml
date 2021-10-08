@@ -1,0 +1,61 @@
+﻿@model EShop.ViewModels.Cart.CheckoutViewModel
+
+@{
+    ViewData["Title"] = "تسویه حساب";
+    Layout = "_CheckoutLayout";
+}
+
+<div class="container">
+    <h3 class="text-center">
+        @ViewData["Title"]
+        <br />
+        <a asp-action="Index" asp-controller="Home" class="mt-3 btn btn-outline-info">بازگشت</a>
+    </h3>
+    <hr />
+    @if (Model.UserCartTotalPrice > 0)
+    {
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <div class="alert alert-info">
+                    <h4>
+                        صورت حساب شما : @Model.UserCartTotalPrice.ToString("#,0") تومان
+                        <br />
+                        هزینه ارسال : 15,000 تومان
+                        <br />
+                        جمع کل : @((Model.UserCartTotalPrice + 15000).ToString("#,0")) تومان
+                        <br />
+                        <br />
+                    </h4>
+                </div>
+                <form asp-action="Checkout">
+                    <input asp-for="UserCartTotalPrice" />
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Address" class="control-label"></label>
+                        <input asp-for="Address" class="form-control"/>
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+                    <div class="form-group my-3">
+                        <input type="submit" value="پرداخت" class="btn btn-primary"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <div class="alert alert-info text-center">
+                    <h4>
+                        <i class="bi bi-cart-plus-fill"></i>
+                        سبد خرید شما خالی است
+                    </h4>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,56 @@
+﻿@page
+@model EShop.Web.Pages.AdminPage.Slider.IndexModel
+
+@{
+    ViewData["Title"] = "اسلایدر ها";
+}
+
+<h3>
+    @ViewData["Title"]
+    <br />
+    <a asp-page="./Add" class="mt-3 btn btn-outline-info">افزودن اسلایدر جدید</a>
+</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Sliders.FirstOrDefault().Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sliders.FirstOrDefault().ProductTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sliders.FirstOrDefault().FirstTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sliders.FirstOrDefault().SecondTitle)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Sliders)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SecondTitle)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.Id" class="btn btn-warning">ویرایش</a>
+                    <form method="post" class="d-inline" asp-route-id="@item.Id" asp-page-handler="Delete">
+                        <button class="btn btn-danger" type="submit">حذف</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

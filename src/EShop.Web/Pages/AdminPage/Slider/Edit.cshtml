@@ -1,0 +1,48 @@
+﻿@page "{id:int}"
+@model EShop.Web.Pages.AdminPage.Slider.EditModel
+
+@{
+    ViewData["Title"] = "ویرایش اسلایدر";
+}
+
+<h3>
+    @ViewData["Title"]
+    <br />
+    <a asp-page="./Index" class="mt-3 btn btn-outline-info">بازگشت به اسلایدر ها</a>
+</h3>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" enctype="multipart/form-data">
+            <input asp-for="Slider.Id" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Slider.ProductId" class="control-label"></label>
+                <select asp-for="Slider.ProductId" asp-items="@ViewBag.Products" class="form-control"></select>
+                <span asp-validation-for="Slider.ProductId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Slider.Image" class="control-label"></label>
+                <input asp-for="Slider.Image" class="form-control" />
+                <span asp-validation-for="Slider.Image" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Slider.FirstTitle" class="control-label"></label>
+                <input asp-for="Slider.FirstTitle" class="form-control" />
+                <span asp-validation-for="Slider.FirstTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Slider.SecondTitle" class="control-label"></label>
+                <input asp-for="Slider.SecondTitle" class="form-control" />
+                <span asp-validation-for="Slider.SecondTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group my-3">
+                <input type="submit" value="ویرایش" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

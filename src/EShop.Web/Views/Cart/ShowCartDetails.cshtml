@@ -1,0 +1,57 @@
+﻿@model IEnumerable<EShop.ViewModels.Cart.CartDetailPreviewViewModel>
+
+@{
+    ViewData["Title"] = "جزییات سبد خرید";
+}
+
+<div class="container">
+    <h3>
+        @ViewData["Title"]
+        <br />
+        <a asp-action="MyCarts" class="mt-3 btn btn-outline-info">بازگشت</a>
+    </h3>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductImage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Count)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalPrice)
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    <a asp-controller="Product" asp-action="Details" asp-route-id="@item.ProductId" asp-route-title="@item.ProductTitle">
+                        @Html.DisplayFor(modelItem => item.ProductTitle)
+                    </a>
+                </td>
+                <td>
+                    <img src="~/images/products/@item.ProductImage" width="100" alt="@item.ProductTitle" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Count)
+                </td>
+                <td>
+                    @item.Price.ToString("#,0") تومان
+                </td>
+                <td>
+                    @((item.TotalPrice + 15000).ToString("#,0")) تومان
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

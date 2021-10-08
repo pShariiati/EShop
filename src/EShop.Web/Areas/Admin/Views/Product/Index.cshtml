@@ -1,0 +1,50 @@
+﻿@model IEnumerable<EShop.ViewModels.Products.ShowProductViewModel>
+
+@{
+    ViewData["Title"] = "محصولات";
+}
+<h3>
+    @ViewData["Title"]
+    <br />
+    <a asp-action="Add" class="mt-3 btn btn-outline-info">افزودن محصول جدید</a>
+</h3>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CategoryTitle)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @item.Price.ToString("#,0")
+                تومان
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CategoryTitle)
+            </td>
+            <td>
+                <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id">ویرایش</a>
+                |
+                <form asp-action="Delete" asp-route-id="@item.Id" class="d-inline" method="post">
+                    <button class="btn btn-danger"@(item.CanRemove ? "" : "disabled=disabled")>حذف</button>
+                </form>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

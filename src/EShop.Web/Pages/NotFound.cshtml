@@ -1,0 +1,9 @@
+﻿@using System.Net
+@{
+    ViewData["Title"] = "خطای 404";
+    this.Context.Response.StatusCode = (int)HttpStatusCode.NotFound;
+}
+
+<div class="alert alert-warning text-center" role="alert">
+    صفحه مورد نظر پیدا نشد
+</div>

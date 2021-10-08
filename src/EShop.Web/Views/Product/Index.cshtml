@@ -1,0 +1,187 @@
+﻿@using EShop.ViewModels.Products
+@using EShop.Common.Extensions
+@model EShop.ViewModels.Products.SearchingProductsViewModel
+@{
+    ViewData["Title"] = "محصولات";
+    Model.SelectedMaxPrice = Model.SelectedMaxPrice == 0 ? Model.MaxPrice : Model.SelectedMaxPrice;
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="border rounded p-3">
+                <p class="text-center">جستجو بر اساس قیمت کالا</p>
+                <p class="mt-4">
+                    <span>
+                        @Model.MinPrice.ToString("#,0")
+                        تومان
+                    </span>
+                    <span style="float: left">
+                        @Model.MaxPrice.ToString("#,0")
+                        تومان
+                    </span>
+                </p>
+                <div id="price-range-slider"></div>
+                <p class="mt-4">
+                    <span>
+                        از
+                        <span id="min-price">1000</span>
+                        تومان
+                    </span>
+                    <span style="float: left">
+                        تا
+                        <span id="max-price">1000</span>
+                        تومان
+                    </span>
+                </p>
+                <form asp-action="Index" method="get">
+                    <input name="condition" type="hidden" value="@Model.Condition" />
+                    <input type="hidden" name="s" value="@ViewBag.SearchKey" />
+                    @foreach (var item in Model.SelectedCategories)
+                    {
+                        <input name="selectedCategories" value="@item" type="hidden" />
+                    }
+                    <input type="hidden" name="selectedMinPrice" value="@Model.SelectedMinPrice" />
+                    <input type="hidden" name="selectedMaxPrice" value="@(Model.SelectedMaxPrice)" />
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-sm btn-outline-primary">اعمال</button>
+                    </div>
+                </form>
+            </div>
+            <div class="mt-4 border rounded p-2">
+                <p class="text-center">جستجو بر اساس دسته بندی</p>
+                <form asp-action="Index" method="get" id="search-by-categories-form">
+                    <input name="condition" type="hidden" value="@Model.Condition" />
+                    <input type="hidden" name="s" value="@ViewBag.SearchKey" />
+                    <input type="hidden" name="selectedMinPrice" value="@Model.SelectedMinPrice" />
+                    <input type="hidden" name="selectedMaxPrice" value="@(Model.SelectedMaxPrice)" />
+                    @foreach (var item in Model.Categories.Where(x => x.ParentId == null))
+                    {
+                        <p>
+                            @item.Title
+                            <br />
+                            @foreach (var subCat in Model.Categories.Where(x => x.ParentId == item.Id))
+                            {
+                                @:&nbsp;&nbsp;&nbsp;
+                                @*<text>&nbsp; &nbsp; &nbsp;</text>*@
+                                <label>
+                                    <input name="selectedCategories" type="checkbox" value="@subCat.Id" @(Model.SelectedCategories.Contains(subCat.Id) ? "checked=checked" : "") />
+                                    @subCat.Title
+                                </label>
+                                <br />
+                            }
+                        </p>
+                    }
+                </form>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div>
+                @*<a asp-action="Index" asp-route-s="@ViewBag.SearchKey"
+                    asp-route-condition="@item"
+                    class="btn btn-sm btn-outline-secondary@(item == Model.Condition ? " active" : "")">@item.GetEnumDisplayName()</a>*@
+                <form asp-action="Index" method="get">
+                    <input type="hidden" name="s" value="@ViewBag.SearchKey" />
+                    <input type="hidden" name="selectedMinPrice" value="@Model.SelectedMinPrice" />
+                    <input type="hidden" name="selectedMaxPrice" value="@(Model.SelectedMaxPrice)" />
+                    @foreach (var item in Model.SelectedCategories)
+                    {
+                        <input name="selectedCategories" value="@item" type="hidden" />
+                    }
+                    @foreach (ProductSearchConditionEnum item in Enum.GetValues(typeof(ProductSearchConditionEnum)))
+                    {
+                        <button name="condition" value="@item" class="btn btn-sm btn-outline-secondary@(item == Model.Condition ? " active" : "")">@item.GetEnumDisplayName()</button>
+                    }
+                </form>
+            </div>
+            <br />
+            <div class="row" id="product-carts">
+                @foreach (var item in Model.Products)
+                {
+                    <div class="card col-md-3">
+                        <img height="150"
+                             src="~/images/products/@item.Image" class="card-img-top" alt="@item.Title">
+                        <div class="card-body">
+                            <h5 class="show-extra-text-in-3-dots card-title">@item.Title</h5>
+                            <p class="card-text">@item.Price.ToString("#,0") تومان</p>
+                            <a asp-action="Details" asp-route-id="@item.Id"
+                               asp-route-title="@item.Title" class="btn btn-primary">جزییات</a>
+                        </div>
+                    </div>
+                }
+            </div>
+            <br />
+            <div class="btn-toolbar justify-content-center" role="toolbar">
+                <form asp-action="Index" method="get">
+                    <div class="btn-group btn-group-lg" role="group">
+                        <button
+                            @(Model.CurrentPage == 1 ? " disabled=disabled" : "")
+                            name="page" value="@(Model.CurrentPage - 1)" type="submit"
+                            class="btn btn-outline-secondary">
+                            <span aria-hidden="true">&laquo;</span>
+                        </button>
+                        @for (int counter = 1; counter <= Model.PagesCount; counter++)
+                        {
+                            <input
+                                name="page" type="submit" value="@counter"
+                                class="btn btn-outline-secondary@(Model.CurrentPage == counter ? " active" : "")" />
+                        }
+                        <button
+                            @(Model.CurrentPage == Model.PagesCount ? " disabled=disabled" : "")
+                            name="page"
+                            value="@(Model.CurrentPage + 1)"
+                            type="submit" class="btn btn-outline-secondary">
+                            <span aria-hidden="true">&raquo;</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Css
+{
+    <link rel="stylesheet" href="~/lib/noUiSlider/nouislider.min.css" />
+}
+@section Scripts
+{
+    <script src="~/lib/noUiSlider/nouislider.min.js"></script>
+    <script>
+        $('#search-by-categories-form label').click(function () {
+            $('#search-by-categories-form').submit();
+        });
+        var rangeSlider = document.getElementById('price-range-slider');
+        noUiSlider.create(rangeSlider, {
+            connect: true,
+            step: @(Model.MaxPrice / 100),
+            direction: 'rtl',
+            start: [@Model.SelectedMinPrice, @Model.SelectedMaxPrice],
+            range: {
+                'min': @Model.MinPrice,
+                'max': @Model.MaxPrice
+            }
+        });
+
+        rangeSlider.noUiSlider.on('update', function (values, handle) {
+            //console.log('updating');
+            var value = Math.round(values[handle]);
+            if (handle) {
+                $('#max-price').html(value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
+            } else {
+                $('#min-price').html(value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
+            }
+        });
+
+        rangeSlider.noUiSlider.on('change', function (values, handle) {
+            //alert('changed');
+            var value = Math.round(values[handle]);
+            //alert(handle);
+            if (handle) {
+                $('input[name="selectedMaxPrice"]').val(value);
+            } else {
+                $('input[name="selectedMinPrice"]').val(value);
+            }
+            //$('form').submit()
+        });
+    </script>
+}

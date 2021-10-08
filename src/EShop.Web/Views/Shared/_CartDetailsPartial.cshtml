@@ -1,0 +1,53 @@
+﻿@model EShop.ViewModels.Cart.ShowCartDetailsViewModel
+<h3 style="float: right; width: 100%;margin-bottom: 20px;" class="text-center">
+    جمع کل سبد خرید
+    <br>
+    <br>
+    <span id="cart-total-price">
+        @Model.UserCartTotalPrice
+    </span>
+    تومان
+    <a asp-action="Checkout" asp-controller="Cart" class="btn btn-success">
+        تسویه حساب
+        <i class="bi bi-basket3-fill"></i>
+    </a>
+</h3>
+@foreach (var item in Model.CartDetails)
+{
+    <div class="card" style="width: 50%; float: right;">
+        <img src="/images/products/@item.ProductImage" height="150"
+             class="card-img-top" alt="@item.ProductTitle">
+        <div class="card-body">
+            <p class="card-text show-extra-text-in-3-dots" title="@item.ProductTitle">@item.ProductTitle</p>
+            <div class="text-center d-block">
+                <div class="text-center" style="width: 33%;float:right">
+                    <button class="btn btn-outline-secondary" onclick="increaseOrLowOffCartDetail(@item.ProductId, true, this)">+</button>
+                </div>
+                <div class="text-center" style="width: 33%;float:right">
+                    <input value="@item.Count" type="text" class="form-control text-center" disabled>
+                </div>
+                <div class="text-center" style="width: 33%;float:right">
+                    <button class="btn btn-outline-secondary" onclick="increaseOrLowOffCartDetail(@item.ProductId, false, this)">-</button>
+                </div>
+                <button class="btn btn-link text-danger" onclick="increaseOrLowOffCartDetail(@item.ProductId, false, this, true)">
+                    <i class="bi bi-trash-fill"></i>
+                </button>
+                <br>
+                <br>
+                <p class="m-0">
+                    قیمت واحد
+                    <br>
+                    <span>@item.Price.ToString("#,0")</span>
+                    تومان
+                </p>
+                <hr>
+                <p class="m-0">
+                    قیمت کل
+                    <br>
+                    <span>@item.TotalPrice.ToString("#,0")</span>
+                    تومان
+                </p>
+            </div>
+        </div>
+    </div>
+}

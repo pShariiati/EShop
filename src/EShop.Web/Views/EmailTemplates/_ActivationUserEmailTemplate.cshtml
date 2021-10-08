@@ -1,0 +1,13 @@
+﻿@model EShop.ViewModels.Account.RegisterEmailConfirmationViewModel
+@{
+    Layout = "~/Views/EmailTemplates/_EmailsLayout.cshtml";
+    ViewData["Title"] = "فعال سازی حساب کاربری";
+    var activationUserLink = Url.Action("ConfirmationAccount", "Account", new { area = "", code = Model.ActivationCode, UserName = Model.UserName }, protocol: this.Context.Request.Scheme);
+}
+<h3>
+    @Model.UserName عزیز
+    <br />
+    شما در تاریخ @Model.CreatedDateTime در وبسایت ما ثبت نام کرده اید
+</h3>
+<h2>برای فعال سازی حساب کاربری خود روی لینک زیر کلیک نمایید</h2>
+<a href="@activationUserLink">کلیک کنید</a>

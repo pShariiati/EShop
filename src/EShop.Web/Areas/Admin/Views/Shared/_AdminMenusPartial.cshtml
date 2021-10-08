@@ -1,0 +1,80 @@
+﻿<div class="col-lg-3 d-none d-lg-block mt-3">
+    <ul class="list-group" id="admin-main-menus">
+        <li class="list-group-item">
+            <div class="dropdown">
+                <button class="btn btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    مدیریت دسته بندی ها
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" asp-action="Index" asp-controller="Category">لیست تمامی دسته بندی ها</a></li>
+                    <li><a class="dropdown-item" asp-action="Add" asp-controller="Category">افزودن دسته جدید</a></li>
+                </ul>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div class="dropdown">
+                <button class="btn btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    مدیریت کاربران
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" asp-action="Index" asp-controller="User">لیست کاربران</a></li>
+                    <li><a class="dropdown-item" asp-action="Add" asp-controller="User">افزودن کاربر جدید</a></li>
+                </ul>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div class="dropdown">
+                <button class="btn btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    مدیریت نقش ها
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" asp-action="Index" asp-controller="Role">لیست نقش ها</a></li>
+                    <li><a class="dropdown-item" asp-action="Add" asp-controller="Role">افزودن نقش جدید</a></li>
+                </ul>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div class="dropdown">
+                <button class="btn btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    مدیریت محصولات
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" asp-action="Index" asp-controller="Product">لیست محصولات</a></li>
+                    <li><a class="dropdown-item" asp-action="Add" asp-controller="Product">افزودن محصول جدید</a></li>
+                </ul>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div class="dropdown">
+                <button class="btn btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    مدیریت اسلایدر ها
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" asp-action="Index" asp-controller="Slider" asp-area="Admin">لیست اسلایدر ها</a></li>
+                    <li><a class="dropdown-item" asp-action="Add" asp-controller="Slider" asp-area="Admin">افزودن اسلایدر جدید</a></li>
+                </ul>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div class="dropdown">
+                <button class="btn btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    مدیریت اسلایدر ها (Razor pages)
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="/AdminPage/Slider">لیست اسلایدر ها</a></li>
+                    <li><a class="dropdown-item" asp-action="Add" asp-controller="Slider">افزودن اسلایدر جدید</a></li>
+                </ul>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div class="dropdown">
+                <button class="btn btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    مدیریت سفارشات
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" asp-action="Index" asp-controller="Cart">لیست سفارشات پرداختی</a></li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+</div>

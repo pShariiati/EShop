@@ -1,0 +1,9 @@
+﻿@using System.Net
+@{
+    ViewData["Title"] = "خطای 403";
+    this.Context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+}
+
+<div class="alert alert-warning text-center" role="alert">
+    شما اجازه دسترسی به این بخش را ندارید
+</div>

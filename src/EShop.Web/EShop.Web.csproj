@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+	  <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+	  <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.8" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.8" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="NLog" Version="4.7.11" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="4.14.0" />
+    <PackageReference Include="Zarinpal" Version="3.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EShop.Common\EShop.Common.csproj" />
+    <ProjectReference Include="..\EShop.DataLayer\EShop.DataLayer.csproj" />
+    <ProjectReference Include="..\EShop.Entities\EShop.Entities.csproj" />
+    <ProjectReference Include="..\EShop.IocConfig\EShop.IocConfig.csproj" />
+    <ProjectReference Include="..\EShop.Services\EShop.Services.csproj" />
+    <ProjectReference Include="..\EShop.ViewModels\EShop.ViewModels.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Pages\Shared\" />
+    <Folder Include="wwwroot\images\sliders\" />
+    <Folder Include="wwwroot\images\products\" />
+  </ItemGroup>
+
+</Project>

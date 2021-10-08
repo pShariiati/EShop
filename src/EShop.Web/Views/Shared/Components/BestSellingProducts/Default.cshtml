@@ -1,0 +1,35 @@
+﻿@model List<EShop.ViewModels.Products.ProductPreviewViewModel>
+<div class="text-center my-3" id="carousel-slider-2">
+    <h2 class="font-weight-light">پرفروشترین محصولات</h2>
+    <div class="row mx-auto my-auto justify-content-center">
+        <div id="recipeCarousel2" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner" role="listbox">
+                @for (var counter = 0; counter < Model.Count; counter++)
+                {
+                    <div class="carousel-item@(counter == 0 ? " active" : "")">
+                        <div class="col-md-3">
+                            <div class="card">
+                                <div class="card-img">
+                                    <img src="/images/products/@Model[counter].Image"
+                                         class="img-fluid"
+                                         style="height: 250px">
+                                </div>
+                                <a asp-action="Details" asp-controller="Product" asp-route-id="@Model[counter].Id" asp-route-title="@Model[counter].Title">
+                                    <div class="card-img-overlay">@Model[counter].Title</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <a class="carousel-control-prev bg-transparent w-aut" href="#recipeCarousel2" role="button"
+               data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            </a>
+            <a class="carousel-control-next bg-transparent w-aut" href="#recipeCarousel2" role="button"
+               data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            </a>
+        </div>
+    </div>
+</div>

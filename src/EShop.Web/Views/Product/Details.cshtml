@@ -1,0 +1,126 @@
+﻿@using System.Net
+@model EShop.ViewModels.Products.ProductDetailsViewModel
+
+@{
+    ViewData["Title"] = $"جزییات محصول {Model.Title}";
+}
+@section Tags {
+    @if (Model.Tags != null)
+    {
+        <meta name="keywords" content="@string.Join(",", Model.Tags)" />
+    }
+}
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <img id="main-product-image" src="/images/products/@Model.Images.First()" class="img-thumbnail" alt="@Model.Title" style="width: 100%" />
+            @foreach (var image in Model.Images)
+            {
+                <img src="/images/products/@image" class="img-thumbnail" width="100" style="cursor: pointer" onclick="changeImage(this)" />
+            }
+        </div>
+        <div class="col-md-8">
+            <h3>
+                @Model.Title
+            </h3>
+            <hr />
+            <p>
+                ویژگی های محصول
+            </p>
+            @foreach (var property in Model.Properties)
+            {
+                var splittedProperty = property.Split("|||", StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+                <p>
+                    @splittedProperty[0]
+                    :
+                    @splittedProperty[1]
+                </p>
+            }
+            <hr />
+            <h2>
+                @Model.Price.ToString("#,0")
+                تومان
+            </h2>
+            <br />
+            <form data-ajax="true"
+                  data-ajax-begin="beginOnAddToCart"
+                  data-ajax-success="successOnAddToCart"
+                  data-ajax-complete="completeOnAddToCart"
+                  asp-controller="Cart" asp-action="Add" id="add-to-cart-form">
+                <button type="submit" name="productId" value="@Model.Id" class="btn btn-outline-success btn-lg mb-3">
+                    <i class="bi bi-cart-check-fill"></i>
+                    <span>افزودن به سبد خرید</span>
+                    <img class="d-none" width="20" src="/images/application/loading.gif" alt="صبر کنید" />
+                </button>
+            </form>
+            <div>
+                @Html.Raw(Model.Description)
+            </div>
+        </div>
+    </div>
+    <br />
+    <div id="sliders">
+        <vc:newest-products exclude-id="@Model.Id"></vc:newest-products>
+    </div>
+</div>
+<!-- Toast -->
+<div class="position-fixed bottom-0 start-0 p-3">
+    <div id="myToastEl" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <button type="button"
+                    data-bs-dismiss="toast" class="btn text-danger">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </div>
+        <div class="toast-body text-white"></div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        var myToastEl = $('#myToastEl');
+        var myToast = bootstrap.Toast.getOrCreateInstance(myToastEl);
+
+        function changeImage(e) {
+            var imageSource = $(e).attr('src');
+            $('#main-product-image').attr('src', imageSource);
+        }
+
+        function beginOnAddToCart() {
+            // We declared ```isUserAuthenticated``` in Layout.cshtml
+            //var isUserAuthenticated = @User.Identity.IsAuthenticated.ToString().ToLower();
+            if (!isUserAuthenticated) {
+                //// Showing toast
+                $('#myToastEl .toast-body').html('ابتدا وارد سایت شوید');
+                $('#myToastEl').addClass('bg-danger');
+                myToast.show();
+                ////
+                //alert('ابتدا وارد سایت شوید');
+                return false;
+            }
+            $('#add-to-cart-form span').html('');
+            $('#add-to-cart-form button img').removeClass('d-none');
+        }
+        function successOnAddToCart(data) {
+            //// Showing toast
+            $('#myToastEl').addClass('bg-success');
+            $('#myToastEl .toast-body').html('محصول مورد نظر با موفقیت به سبد خرید اضافه شد');
+            myToast.show();
+            ////
+            $('#checkout-button span').html(data);
+            // reload cart details
+            $('#offcanvasScrolling .offcanvas-body').html('');
+            $('#cart-details-loading').removeClass('d-none');
+            $.get('/Cart/ShowCartDetailsPreview',
+                function (result) {
+                    $('#cart-details-loading').addClass('d-none');
+                    $('#offcanvasScrolling .offcanvas-body').html(result);
+                });
+            // end reload cart details
+        }
+
+        function completeOnAddToCart() {
+            $('#add-to-cart-form span').html('افزودن به سبد خرید');
+            $('#add-to-cart-form button img').addClass('d-none');
+        }
+    </script>
+}

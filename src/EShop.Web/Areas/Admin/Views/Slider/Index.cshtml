@@ -1,0 +1,55 @@
+﻿@model IEnumerable<EShop.ViewModels.Sliders.ShowSliderViewModel>
+
+@{
+    ViewData["Title"] = "اسلایدر ها";
+}
+
+<h3>
+    @ViewData["Title"]
+    <br />
+    <a asp-action="Add" class="mt-3 btn btn-outline-info">افزودن اسلایدر جدید</a>
+</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SecondTitle)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SecondTitle)
+                </td>
+                <td>
+                    @Html.ActionLink("ویرایش", "Edit", new { id = item.Id }, new { @class = "btn btn-warning" }) |
+                    <form class="d-inline" asp-action="Delete" asp-route-id="@item.Id">
+                        <button class="btn btn-danger" type="submit">حذف</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

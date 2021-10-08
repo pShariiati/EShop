@@ -1,0 +1,36 @@
+﻿@model EShop.ViewModels.Cart.PaymentResultViewModel
+@{
+    ViewData["Title"] = "وضعیت پراخت" + (Model.IsPay ? " پرداخت" : "");
+    Layout = "_CheckoutLayout";
+}
+
+<div class="container">
+    <h3 class="text-center">
+        @ViewData["Title"]
+        <br />
+        <a asp-action="Index" asp-controller="Home" class="mt-3 btn btn-outline-info">بازگشت</a>
+    </h3>
+    <hr />
+    <div class="row justify-content-center">
+        <div class="col-md-4 text-center">
+            @if (Model.IsPay)
+            {
+                <div class="alert alert-success">
+                    پرداخت شما با موفقیت انجام شد.
+                    <br />
+                    @Model.TotalPrice
+                    <br />
+                    شماره پرداخت : @Model.RefId
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-warning">
+                    خطایی به وجود آمد
+                    <br />
+                    @ViewBag.Message
+                </div>
+            }
+        </div>
+    </div>
+</div>
