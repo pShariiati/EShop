@@ -9,7 +9,7 @@ namespace EShop.Web.Controllers
 {
     public class HomeController : Controller
     {
-		// Test
+		// Test 2
         private readonly ICategoryService _categoryService;
         private readonly IUserManagerService _userManagerService;
         private readonly IProductImageService _productImageService;
