@@ -15,6 +15,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 using System;
+using EShop.Services.Contracts.Identity.WebApi;
+using EShop.Services.EFServices.Identity.WebApi;
 
 namespace EShop.IocConfig
 {
@@ -28,6 +30,9 @@ namespace EShop.IocConfig
             {
                 options.UseSqlServer(connectionStrings.TicketDbContextConnection);
             });
+            services.AddScoped<IUnitOfWork, TicketDbContext>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ITokenService, TokenService>();
             return services;
         }
     }

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EShop.DataLayer.Migrations
 {
     [DbContext(typeof(EShopDbContext))]
-    [Migration("20211010165246_V2021_10_10_2022")]
-    partial class V2021_10_10_2022
+    [Migration("20211012123804_V2021_10_12_1607")]
+    partial class V2021_10_12_1607
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

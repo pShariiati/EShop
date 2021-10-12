@@ -13,7 +13,8 @@ namespace EShop.DataLayer.Context
 
         #region Entities
 
-        public DbSet<Test> Tests { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
 
         #endregion
 
