@@ -20,5 +20,6 @@ namespace EShop.Entities.WebApiEntities
         public string Password { get; set; }
 
         public ICollection<Role> Roles { get; set; }
+            = new List<Role>();
     }
 }

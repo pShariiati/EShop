@@ -33,6 +33,7 @@ namespace EShop.IocConfig
             services.AddScoped<IUnitOfWork, TicketDbContext>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IRoleService, RoleService>();
             return services;
         }
     }
