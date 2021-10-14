@@ -19,6 +19,9 @@ namespace EShop.Entities.WebApiEntities
         [MaxLength(100)]
         public string Password { get; set; }
 
+        [MaxLength(50)]
+        public string Avatar { get; set; }
+
         public ICollection<Role> Roles { get; set; }
             = new List<Role>();
     }

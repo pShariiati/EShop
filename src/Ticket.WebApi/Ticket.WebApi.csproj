@@ -18,5 +18,8 @@
 		<ProjectReference Include="..\EShop.IocConfig\EShop.IocConfig.csproj" />
 		<ProjectReference Include="..\EShop.ViewModels\EShop.ViewModels.csproj" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="wwwroot\images\avatars\" />
+	</ItemGroup>
 
 </Project>

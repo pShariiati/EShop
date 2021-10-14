@@ -447,8 +447,6 @@ namespace EShop.Web.Controllers
                     var avatarName = Guid.NewGuid().ToString("N");
                     var avatarExtension = System.IO.Path.GetExtension(model.Avatar.FileName);
                     model.Avatar.SaveImage(avatarName, avatarExtension, "avatars");
-                    if (user.Avatar != PublicConstantStrings.UserDefaultAvatar)
-                        WorkWithImages.RemoveImage(user.Avatar, "avatars");
                     user.Avatar = avatarName + avatarExtension;
                 }
                 var result = await _userManager.UpdateAsync(user);

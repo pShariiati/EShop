@@ -84,7 +84,7 @@ namespace Ticket.WebApi
             }
 
             app.UseHttpsRedirection();
-
+            app.UseStaticFiles();
             app.UseRouting();
 
             app.UseAuthentication();

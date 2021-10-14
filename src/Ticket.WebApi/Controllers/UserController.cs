@@ -1,11 +1,15 @@
-﻿using System.Linq;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Threading.Tasks;
+using EShop.Common.Constants;
 using EShop.Common.Extensions;
 using EShop.DataLayer.Context;
 using EShop.Entities.WebApiEntities;
 using EShop.Services.Contracts.Identity.WebApi;
 using EShop.ViewModels.Users.WebApi;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
@@ -42,38 +46,49 @@ namespace Ticket.WebApi.Controllers
             var user = await _userService.FindByIdAsync(id);
             return Ok(user);
         }
-
+        
         [HttpPost]
-        public async Task<IActionResult> Add(AddUserViewModel model)
+        public async Task<IActionResult> Add([FromForm]AddUserViewModel model)
         {
-            var checkForDuplicateUserName = _userService.IsExistsByUserNameForAdd(model.UserName);
-            if (checkForDuplicateUserName)
-                return BadRequest("نام کاربری تکراری میباشد");
-            var user = new User()
+            if (ModelState.IsValid)
             {
-                UserName = model.UserName,
-                FullName = model.FullName,
-                Password = model.Password.ToHash()
-            };
-            var existRoles = _roleService.GetRolesBy(model.Roles);
-            foreach (var role in model.Roles)
-            {
-                var currentRole = existRoles.SingleOrDefault(x => x.Title == role);
-                //user.Roles.Add(currentRole ?? new Role
-                //{
-                //    Title = role
-                //});
-                if (currentRole is null)
-                    user.Roles.Add(new Role()
-                    {
-                        Title = role
-                    });
-                else
-                    user.Roles.Add(currentRole);
+                var checkForDuplicateUserName = _userService.IsExistsByUserNameForAdd(model.UserName);
+                if (checkForDuplicateUserName)
+                    return BadRequest("نام کاربری تکراری میباشد");
+                var user = new User()
+                {
+                    UserName = model.UserName,
+                    FullName = model.FullName,
+                    Password = model.Password.ToHash()
+                };
+                var existRoles = _roleService.GetRolesBy(model.Roles);
+                foreach (var role in model.Roles)
+                {
+                    var currentRole = existRoles.SingleOrDefault(x => x.Title == role);
+                    //user.Roles.Add(currentRole ?? new Role
+                    //{
+                    //    Title = role
+                    //});
+                    if (currentRole is null)
+                        user.Roles.Add(new Role()
+                        {
+                            Title = role
+                        });
+                    else
+                        user.Roles.Add(currentRole);
+                }
+                //upload image
+                var avatarName = Guid.NewGuid().ToString("N");
+                var avatarExtension = System.IO.Path.GetExtension(model.Avatar.FileName);
+                model.Avatar.SaveImage(avatarName, avatarExtension, "avatars");
+                user.Avatar = avatarName + avatarExtension;
+                //
+                await _userService.AddAsync(user);
+                await _uow.SaveChangesAsync();
+                return CreatedAtAction(nameof(Index), new {id = user.Id}, model);
             }
-            await _userService.AddAsync(user);
-            await _uow.SaveChangesAsync();
-            return CreatedAtAction(nameof(Index), new { id = user.Id }, model);
+
+            return BadRequest(ModelState);
         }
 
         [HttpPut]
