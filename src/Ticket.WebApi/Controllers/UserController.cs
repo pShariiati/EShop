@@ -4,7 +4,6 @@ using EShop.Common.Extensions;
 using EShop.DataLayer.Context;
 using EShop.Entities.WebApiEntities;
 using EShop.Services.Contracts.Identity.WebApi;
-using EShop.ViewModels.Account.WebApi;
 using EShop.ViewModels.Users.WebApi;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

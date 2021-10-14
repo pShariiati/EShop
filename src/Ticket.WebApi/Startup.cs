@@ -1,3 +1,7 @@
+using System;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Text;
 using EShop.IocConfig;
 using EShop.ViewModels.Application;
@@ -29,7 +33,25 @@ namespace Ticket.WebApi
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Ticket.WebApi", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Ticket.WebApi",
+                    Version = "v1",
+                    Contact = new OpenApiContact()
+                    {
+                        Url = new Uri("https://site.com"),
+                        Email = "pshariiati@gmail.com",
+                        Name = "Payam Shariati"
+                    },
+                    License = new OpenApiLicense()
+                    {
+                        Name = "MIT",
+                        Url = new Uri("https://site.com/license")
+                    }
+                });
+
+                var xmlFiles = Directory.GetFiles(AppContext.BaseDirectory, "*.xml", SearchOption.TopDirectoryOnly).ToList();
+                xmlFiles.ForEach(xmlFile => c.IncludeXmlComments(xmlFile));
             });
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -56,7 +78,9 @@ namespace Ticket.WebApi
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Ticket.WebApi v1"));
+                app.UseSwaggerUI(
+                    c => c.SwaggerEndpoint("/swagger/v1/swagger.json","Ticket.WebApi v1")
+                );
             }
 
             app.UseHttpsRedirection();

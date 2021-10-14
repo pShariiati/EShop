@@ -1,6 +1,7 @@
 ﻿using EShop.Services.Contracts.Identity.WebApi;
 using EShop.ViewModels.Account.WebApi;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
@@ -8,6 +9,7 @@ namespace Ticket.WebApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Produces("application/json")]
     public class AccountController : ControllerBase
     {
         private readonly IConfiguration _config;
@@ -20,28 +22,40 @@ namespace Ticket.WebApi.Controllers
             _tokenService = tokenService;
             _userService = userService;
         }
-        
+
+        /// <summary>
+        /// Login action
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        /// <response code="200">Everything is OK and you get the JWT token</response>
+        /// <response code="400">Check the model state OR ```UserName``` OR ```Password``` is incorrect</response>
         //[Route("login")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpPost("Login")]
         public IActionResult Login(LoginViewModel model)
         {
-            var user = _userService.GetUserBy(model);
-            if (user != null)
+            if (ModelState.IsValid)
             {
-                var generatedToken = _tokenService
-                    .BuildToken(
-                    _config["Jwt:Key"].ToString(), _config["Jwt:Issuer"].ToString(),
-                    user, model.RememberMe);
-                if (generatedToken != null)
+                var user = _userService.GetUserBy(model);
+                if (user != null)
                 {
-                    return Ok(generatedToken);
-                }
-                else
-                {
-                    return BadRequest("Something wrong");
+                    var generatedToken = _tokenService
+                        .BuildToken(
+                            _config["Jwt:Key"].ToString(), _config["Jwt:Issuer"].ToString(),
+                            user, model.RememberMe);
+                    if (generatedToken != null)
+                    {
+                        return Ok(generatedToken);
+                    }
+                    else
+                    {
+                        return BadRequest("Something wrong");
+                    }
                 }
             }
-            return BadRequest();
+            return BadRequest(ModelState);
         }
 
         [Authorize]
