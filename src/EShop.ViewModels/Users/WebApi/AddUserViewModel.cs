@@ -15,7 +15,6 @@ namespace EShop.ViewModels.Users.WebApi
 
         public List<string> Roles { get; set; }
 
-        [Required(ErrorMessage = AttributesErrorMessages.RequiredMessage)]
         public IFormFile Avatar { get; set; }
     }
 }

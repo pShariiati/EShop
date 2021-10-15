@@ -1,6 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using EShop.Common.Constants;
 using EShop.Common.Extensions;
@@ -46,9 +49,9 @@ namespace Ticket.WebApi.Controllers
             var user = await _userService.FindByIdAsync(id);
             return Ok(user);
         }
-        
+
         [HttpPost]
-        public async Task<IActionResult> Add([FromForm]AddUserViewModel model)
+        public async Task<IActionResult> Add([FromForm] AddUserViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -85,7 +88,58 @@ namespace Ticket.WebApi.Controllers
                 //
                 await _userService.AddAsync(user);
                 await _uow.SaveChangesAsync();
-                return CreatedAtAction(nameof(Index), new {id = user.Id}, model);
+                return CreatedAtAction(nameof(Index), new { id = user.Id }, model);
+            }
+
+            return BadRequest(ModelState);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddBase64(AddUserViewModelBase64 model)
+        {
+            if (ModelState.IsValid)
+            {
+                var checkForDuplicateUserName = _userService.IsExistsByUserNameForAdd(model.UserName);
+                if (checkForDuplicateUserName)
+                    return BadRequest(new
+                    {
+                        Code = 10,
+                        Message = "نام کاربری تکراری میباشد"
+                    });
+                var user = new User()
+                {
+                    UserName = model.UserName,
+                    FullName = model.FullName,
+                    Password = model.Password.ToHash()
+                };
+                if (model.Roles != null && model.Roles.Any())
+                {
+                    var existRoles = _roleService.GetRolesBy(model.Roles);
+                    foreach (var role in model.Roles)
+                    {
+                        var currentRole = existRoles.SingleOrDefault(x => x.Title == role);
+                        //user.Roles.Add(currentRole ?? new Role
+                        //{
+                        //    Title = role
+                        //});
+                        if (currentRole is null)
+                            user.Roles.Add(new Role()
+                            {
+                                Title = role
+                            });
+                        else
+                            user.Roles.Add(currentRole);
+                    }
+                }
+
+                //upload image
+                var avatarName = Guid.NewGuid().ToString("N");
+                var avatarExtension = await model.Avatar.SaveBase64ImageAsync(avatarName, "avatars");
+                user.Avatar = avatarName + avatarExtension;
+                //
+                await _userService.AddAsync(user);
+                await _uow.SaveChangesAsync();
+                return CreatedAtAction(nameof(Index), new { id = user.Id }, model);
             }
 
             return BadRequest(ModelState);

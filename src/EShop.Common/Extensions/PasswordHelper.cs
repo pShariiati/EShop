@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using Microsoft.Extensions.Configuration;
 
 namespace EShop.Common.Extensions
 {
     public static class PasswordHelper
     {
+        //private static readonly string secretKey2 = "evicequffyxbdsqfqwxzbqweulwbkpkrlqfujmupkqqmwvyxyraidvqywtrensxw";
         private static readonly byte[] secretKey = new byte[]
         {
             187,
@@ -77,8 +79,10 @@ namespace EShop.Common.Extensions
         };
         public static string ToHash(this string input)
         {
+            //var secretKeyBytes = Encoding.UTF8.GetBytes(secretKey2);
             var messageBytes = Encoding.UTF8.GetBytes(input);
             using var hmac = new HMACSHA256(secretKey);
+            //using var hmac = new HMACSHA256(secretKeyBytes);
             var hashedMessage = hmac.ComputeHash(messageBytes);
             return Convert.ToBase64String(hashedMessage);
         }

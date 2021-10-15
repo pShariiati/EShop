@@ -1,5 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System;
+using System.Drawing;
+using System.Drawing.Imaging;
+using Microsoft.AspNetCore.Http;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace EShop.Common.Extensions
 {
@@ -19,6 +23,26 @@ namespace EShop.Common.Extensions
             var imagePath =
                 Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", folderName, imageName);
             File.Delete(imagePath);
+        }
+
+        public static Image FromBase64ToImage(this string input)
+        {
+            var avatarBytes = Convert.FromBase64String(input);
+            using var ms = new MemoryStream(avatarBytes);
+            using var image = Image.FromStream(ms);
+            return image;
+        }
+
+        public static async Task<string> SaveBase64ImageAsync(this string image, string name, string folderName)
+        {
+            var bytes = Convert.FromBase64String(image);
+            await using var ms = new MemoryStream(bytes);
+            using var pic = Image.FromStream(ms);
+            var imageExtension = "." + pic.RawFormat;
+            var imagePath =
+                Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", folderName, name + imageExtension);
+            pic.Save(imagePath);
+            return imageExtension.ToString();
         }
     }
 }
