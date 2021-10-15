@@ -44,5 +44,13 @@ namespace EShop.Common.Extensions
             pic.Save(imagePath);
             return imageExtension.ToString();
         }
+
+        public static async Task<string> ConvertToBase64(this IFormFile input)
+        {
+            await using var ms = new MemoryStream();
+            await input.CopyToAsync(ms);
+            var fileBytes = ms.ToArray();
+            return Convert.ToBase64String(fileBytes);
+        }
     }
 }

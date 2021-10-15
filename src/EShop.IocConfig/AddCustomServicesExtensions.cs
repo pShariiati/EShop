@@ -15,6 +15,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 using System;
+using EShop.Services.Contracts.WebApi;
+using EShop.Services.EFServices.WebApi;
 
 namespace EShop.IocConfig
 {
@@ -61,6 +63,9 @@ namespace EShop.IocConfig
             services.AddScoped<ICartService, CartService>();
             services.AddScoped<ICartDetailService, CartDetailService>();
             services.AddScoped<IProductTagService, ProductTagService>();
+            services.AddScoped<ICookieManager, CookieManager>();
+            services.AddScoped<IUserServiceWebApi, UserServiceWebApi>();
+            services.AddScoped<IHttpClientService, HttpClientService>();
             services.AddIdentity<User, Role>(identityOptions =>
                 {
                     SetPasswordOptions(identityOptions.Password);

@@ -1,0 +1,56 @@
+﻿@model EShop.ViewModels.TestWebApi.LoginViewModel
+
+@{
+    ViewData["Title"] = "ورود به سایت";
+}
+
+<h1>ورود به سایت</h1>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 mb-3 align-self-center">
+            <form
+                data-ajax="true"
+                data-ajax-method="POST"
+                data-ajax-success="onSuccessForLoginWebApi"
+                data-ajax-failure="onFailureForLoginWebApi"
+                asp-action="Login">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="UserName" class="control-label"></label>
+                    <input asp-for="UserName" class="form-control" />
+                    <span asp-validation-for="UserName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password" class="control-label"></label>
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="RememberMe" /> @Html.DisplayNameFor(model => model.RememberMe)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="ورود به سایت" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts
+{
+    <script>
+        function onSuccessForLoginWebApi(e) {
+            if (e.result) {
+                location.href = '/WebApi';
+            } else {
+                alert(e.message);
+            }
+        }
+
+        function onFailureForLoginWebApi() {
+            alert('خطایی به وجود آمد');
+        }
+    </script>
+}

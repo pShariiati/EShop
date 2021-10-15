@@ -1,0 +1,45 @@
+﻿@model IEnumerable<EShop.ViewModels.TestWebApi.ShowUserViewModel>
+
+@{
+    ViewData["Title"] = "لیست کاربران";
+}
+
+<div class="container">
+    <h1>لیست کاربران</h1>
+
+    <p>
+        <a class="btn btn-primary" asp-action="Add">افزودن</a>
+    </p>
+    <table class="table text-center table-striped">
+        <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Avatar)
+            </th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    <img src="https://localhost:5003/images/avatars/@item.Avatar" width="50"/>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
