@@ -17,6 +17,7 @@ using Microsoft.Extensions.Options;
 using System;
 using EShop.Services.Contracts.WebApi;
 using EShop.Services.EFServices.WebApi;
+using Ganss.XSS;
 
 namespace EShop.IocConfig
 {
@@ -53,7 +54,7 @@ namespace EShop.IocConfig
             services.AddScoped<SignInManager<User>, SignInManagerService>();
 
             #endregion
-
+            
             services.AddScoped<IUnitOfWork, EShopDbContext>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<ICategoryService, CategoryService>();
@@ -98,6 +99,13 @@ namespace EShop.IocConfig
                     options.ClientSecret = "****";
                 });
             services.AddRazorViewRenderer();
+
+            #region Html sanitizer
+            IHtmlSanitizer sanitizer = new HtmlSanitizer();
+            //services.AddSingleton<IHtmlSanitizer, HtmlSanitizer>();
+            services.AddSingleton(sanitizer);
+            #endregion
+
             return services;
         }
         public static IServiceCollection AddRazorViewRenderer(this IServiceCollection services)

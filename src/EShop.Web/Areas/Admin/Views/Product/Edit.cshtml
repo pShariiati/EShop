@@ -90,7 +90,7 @@
     <link href="~/lib/tagify-master/tagify.css" rel="stylesheet" />
 }
 @section Scripts {
-    <script src="/lib/ckeditor/ckeditor.js"></script>
+    @*<script src="/lib/ckeditor/ckeditor.js"></script>*@
     <script src="~/lib/tagify-master/jQuery.tagify.min.js"></script>
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script>
@@ -99,13 +99,13 @@
             maxTags: 10
         });
 
-        CKEDITOR.replace('product-description',
-            {
-                language: 'fa',
-                contentsCss: ["body {font-family: 'Vazir'}"]
-            });
+        //CKEDITOR.replace('product-description',
+        //    {
+        //        language: 'fa',
+        //        contentsCss: ["body {font-family: 'Vazir'}"]
+        //    });
 
-        $('#edit-product-form').submit(function (e) {
+        @*$('#edit-product-form').submit(function (e) {
             if (CKEDITOR.instances['product-description'].getData().length === 0) {
                 $('span#product-description-error-message').html('لطفا توضیحات را وارد نمایید');
                 e.preventDefault(e);
@@ -123,7 +123,7 @@
                     $('#edit-product-form').prepend('<input type="hidden" name="@Html.NameFor(x=> x.Properties)" value="' + $(el).text() + '" />');
                 });
             }
-        });
+        });*@
         $('#product-images-place input').on('change',
             function () {
                 if (!$(this).val() && $('#product-images-place img').length === 0) {
@@ -132,14 +132,14 @@
                     $('#product-images-place span').html('');
                 }
             });
-        CKEDITOR.instances['product-description'].on('change',
-            function () {
-                if (CKEDITOR.instances['product-description'].getData().length === 0) {
-                    $('span#product-description-error-message').html('لطفا توضیحات را وارد نمایید');
-                } else {
-                    $('span#product-description-error-message').html('');
-                }
-            });
+        //CKEDITOR.instances['product-description'].on('change',
+        //    function () {
+        //        if (CKEDITOR.instances['product-description'].getData().length === 0) {
+        //            $('span#product-description-error-message').html('لطفا توضیحات را وارد نمایید');
+        //        } else {
+        //            $('span#product-description-error-message').html('');
+        //        }
+        //    });
 
         function addProductProperty() {
             var propertyTitle = $('#product-property-title');

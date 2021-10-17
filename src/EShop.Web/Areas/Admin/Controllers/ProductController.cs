@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Ganss.XSS;
 
 namespace EShop.Web.Areas.Admin.Controllers
 {
@@ -23,15 +24,23 @@ namespace EShop.Web.Areas.Admin.Controllers
         private readonly IProductService _productService;
         private readonly IProductImageService _productImageService;
         private readonly IProductTagService _productTagService;
+        private readonly IHtmlSanitizer _htmlSanitizer;
         private readonly IUnitOfWork _uow;
 
-        public ProductController(ICategoryService categoryService, IUnitOfWork uow, IProductService productService, IProductImageService productImageService, IProductTagService productTagService)
+        public ProductController(
+            ICategoryService categoryService,
+            IUnitOfWork uow,
+            IProductService productService,
+            IProductImageService productImageService,
+            IProductTagService productTagService,
+            IHtmlSanitizer htmlSanitizer)
         {
             _categoryService = categoryService;
             _uow = uow;
             _productService = productService;
             _productImageService = productImageService;
             _productTagService = productTagService;
+            _htmlSanitizer = htmlSanitizer;
         }
 
         public async Task<IActionResult> Index()
@@ -210,7 +219,8 @@ namespace EShop.Web.Areas.Admin.Controllers
 
             product.Price = model.Price;
             product.Title = model.Title;
-            product.Description = model.Description;
+            //product.Description = model.Description;
+            product.Description = _htmlSanitizer.Sanitize(model.Description);
             product.CategoryId = model.CategoryChildrenId;
             _productService.Update(product);
             await _uow.SaveChangesAsync();
