@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using System.Net.Mime;
+using EShop.Common.Attributes;
 
 namespace EShop.ViewModels.Account
 {
@@ -55,6 +57,11 @@ namespace EShop.ViewModels.Account
         public string LastName { get; set; }
 
         [Display(Name = "آواتار")]
+        //[Required(ErrorMessage = AttributesErrorMessages.RequiredMessage)]
+        [FileRequired("آواتار")]
+        [AllowExtensions("آواتار", new string[] { "png, jpg"}, new string[] { "image/jpeg", "image/png" })]
+        [IsImage("آواتار")]
+        [MaxFileSize("آواتار", 2)]
         public IFormFile Avatar { get; set; }
     }
 }

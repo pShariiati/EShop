@@ -308,3 +308,34 @@ function increaseOrLowOffCartDetail(productId, isIncrease, el, removeAll) {
             }
         });
 }
+
+// fileRequired
+jQuery.validator.addMethod("fileRequired", function (value, element, param) {
+    if (element.files[0] != null)
+        return element.files[0].size > 0;
+    return false;
+});
+jQuery.validator.unobtrusive.adapters.addBool("fileRequired");
+
+// allowExtensions
+jQuery.validator.addMethod('allowExtensions', function (value, element, param) {
+    debugger;
+    var whiteListExtensions = $(element).data('val-whitelistextensions').split(',');
+    return whiteListExtensions.includes(element.files[0].type);
+});
+jQuery.validator.unobtrusive.adapters.addBool('allowExtensions');
+
+// isImage
+jQuery.validator.addMethod('isImage', function (value, element, param) {
+    var whiteListExtensions = $(element).data('val-whitelistextensions').split(',');
+    return whiteListExtensions.includes(element.files[0].type);
+});
+jQuery.validator.unobtrusive.adapters.addBool('isImage');
+
+// maxFileSize
+jQuery.validator.addMethod('maxFileSize', function (value, element, param) {
+    var maxFileSize = $(element).data('val-maxsize');
+    var selectedFileSize = element.files[0].size;
+    return maxFileSize >= selectedFileSize;
+});
+jQuery.validator.unobtrusive.adapters.addBool('maxFileSize');
