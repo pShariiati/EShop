@@ -15,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 using System;
+using EShop.Common.Security;
 using EShop.Services.Contracts.WebApi;
 using EShop.Services.EFServices.WebApi;
 using Ganss.XSS;
@@ -67,6 +68,7 @@ namespace EShop.IocConfig
             services.AddScoped<ICookieManager, CookieManager>();
             services.AddScoped<IUserServiceWebApi, UserServiceWebApi>();
             services.AddScoped<IHttpClientService, HttpClientService>();
+            services.AddScoped<IRijndaelEncryption, RijndaelEncryption>();
             services.AddIdentity<User, Role>(identityOptions =>
                 {
                     SetPasswordOptions(identityOptions.Password);

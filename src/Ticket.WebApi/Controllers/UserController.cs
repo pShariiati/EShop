@@ -22,8 +22,8 @@ namespace Ticket.WebApi.Controllers
 {
     [ApiController]
     [Route("[controller]/[action]")]
-    //[Authorize(Roles = "Admin")]
-    [EnableCors("CustomCORS")]
+    [Authorize(Roles = "Admin")]
+    //[EnableCors("CustomCORS")]
     public class UserController : ControllerBase
     {
         private readonly IConfiguration _config;
@@ -51,7 +51,6 @@ namespace Ticket.WebApi.Controllers
         }
 
         [HttpGet]
-        [DisableCors]
         public async Task<IActionResult> Index()
         {
             var users = await _userService.GetAllAsync();

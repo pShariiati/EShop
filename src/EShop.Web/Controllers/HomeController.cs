@@ -5,6 +5,7 @@ using EShop.Services.Contracts.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
+using EShop.Common.Security;
 using Microsoft.AspNetCore.Http;
 
 namespace EShop.Web.Controllers

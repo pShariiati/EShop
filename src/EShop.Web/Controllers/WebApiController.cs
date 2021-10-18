@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Globalization;
 using System.IO;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Net.Mime;
+using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using EShop.Common.Constants;
 using EShop.Common.Extensions;
+using EShop.Common.Security;
 using EShop.Services.Contracts;
 using EShop.Services.Contracts.WebApi;
 using EShop.ViewModels.TestWebApi;
@@ -19,20 +15,22 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
-using Newtonsoft.Json;
+using Microsoft.Extensions.Configuration;
 
 namespace EShop.Web.Controllers
 {
-    //[TypeFilter(typeof(CustomAuthorize))]
+    [TypeFilter(typeof(CustomAuthorize))]
     public class WebApiController : Controller
     {
         private readonly ICookieManager _cookieManager;
         private readonly IUserServiceWebApi _userService;
+        private readonly IRijndaelEncryption _rijndaelEncryption;
 
-        public WebApiController(ICookieManager cookieManager, IUserServiceWebApi userService)
+        public WebApiController(ICookieManager cookieManager, IUserServiceWebApi userService, IRijndaelEncryption rijndaelEncryption)
         {
             _cookieManager = cookieManager;
             _userService = userService;
+            _rijndaelEncryption = rijndaelEncryption;
         }
 
         public IActionResult GetDataWithAjax()
@@ -210,7 +208,15 @@ namespace EShop.Web.Controllers
                 });
             }
             //var resultContent = await result.Content.ReadAsStringAsync();
-            _cookieManager.Add("JWTToken", result.Result.Trim('"'));
+            var encryptedToken = _rijndaelEncryption.Encryption(result.Result.Trim('"'));
+            _cookieManager.Add("JWTToken", encryptedToken, new CookieOptions()
+            {
+                Expires = model.RememberMe ? DateTimeOffset.Now.AddDays(14) : null,
+                Secure = true,
+                HttpOnly = true,
+                IsEssential = true,
+                SameSite = SameSiteMode.Lax
+            });
             //Response.Cookies.Append("JWTToken", resultContent.Trim('"'));
             return Json(new
             {

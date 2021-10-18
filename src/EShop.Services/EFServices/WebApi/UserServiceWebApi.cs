@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using EShop.Common.Security;
 using EShop.Services.Contracts;
 using EShop.Services.Contracts.WebApi;
 using EShop.ViewModels.TestWebApi;
@@ -13,21 +14,27 @@ namespace EShop.Services.EFServices.WebApi
     {
         private readonly ICookieManager _cookieManager;
         private readonly IHttpClientService _clientService;
+        private readonly IRijndaelEncryption _rijndaelEncryption;
 
-        public UserServiceWebApi(ICookieManager cookieManager, IHttpClientService clientService)
+        public UserServiceWebApi(
+            ICookieManager cookieManager,
+            IHttpClientService clientService,
+            IRijndaelEncryption rijndaelEncryption)
         {
             _cookieManager = cookieManager;
             _clientService = clientService;
+            _rijndaelEncryption = rijndaelEncryption;
         }
 
         public async Task<OperationResult<string>> Add(AddUserViewModel input)
         {
-            var token = _cookieManager.GetValue("JWTToken");
+            var encryptedToken = _cookieManager.GetValue("JWTToken");
+            var decryptedToken = _rijndaelEncryption.Decryption(encryptedToken);
             var modelInJson = JsonConvert.SerializeObject(input);
             var result = await _clientService.SendAsync(
                 "https://localhost:5003/user/addbase64",
                 HttpMethod.Post,
-                token,
+                decryptedToken,
                 modelInJson
             );
             if ((int)result.StatusCode != StatusCodes.Status201Created)
@@ -39,11 +46,12 @@ namespace EShop.Services.EFServices.WebApi
 
         public async Task<OperationResult<List<ShowUserViewModel>>> GetAllAsync()
         {
-            var token = _cookieManager.GetValue("JWTToken");
+            var encryptedToken = _cookieManager.GetValue("JWTToken");
+            var decryptedToken = _rijndaelEncryption.Decryption(encryptedToken);
             var result = await _clientService.SendAsync(
                 "https://localhost:5003/user/index",
                 HttpMethod.Get,
-                token
+                decryptedToken
             );
             if ((int)result.StatusCode != StatusCodes.Status200OK)
             {
