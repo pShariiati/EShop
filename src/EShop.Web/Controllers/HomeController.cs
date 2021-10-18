@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using EShop.Common.Security;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 
 namespace EShop.Web.Controllers
 {
@@ -18,6 +19,7 @@ namespace EShop.Web.Controllers
         private readonly IUnitOfWork _uow;
         private readonly ILogger<HomeController> _logger;
         private readonly ICookieManager _cookieManager;
+        private readonly IConfiguration _configuration;
 
         public HomeController(
             ICategoryService categoryService,
@@ -25,7 +27,7 @@ namespace EShop.Web.Controllers
             IUserManagerService userManagerService,
             IUnitOfWork uow,
             IProductImageService productImageService,
-            ICookieManager cookieManager)
+            ICookieManager cookieManager, IConfiguration configuration)
         {
             _categoryService = categoryService;
             _logger = logger;
@@ -33,10 +35,13 @@ namespace EShop.Web.Controllers
             _uow = uow;
             _productImageService = productImageService;
             _cookieManager = cookieManager;
+            _configuration = configuration;
         }
 
         public async Task<IActionResult> Index()
         {
+            //var testValue = _configuration["TestKey"];
+            //return Content(testValue);
             //_cookieManager.Add("Test Name", "Test value", new CookieOptions
             //{
             //    SameSite = SameSiteMode.Lax,
