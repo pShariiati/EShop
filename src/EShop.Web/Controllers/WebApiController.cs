@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Globalization;
 using System.IO;
 using System.Net.Http;
@@ -17,11 +18,12 @@ using EShop.Web.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Newtonsoft.Json;
 
 namespace EShop.Web.Controllers
 {
-    [TypeFilter(typeof(CustomAuthorize))]
+    //[TypeFilter(typeof(CustomAuthorize))]
     public class WebApiController : Controller
     {
         private readonly ICookieManager _cookieManager;
@@ -31,6 +33,47 @@ namespace EShop.Web.Controllers
         {
             _cookieManager = cookieManager;
             _userService = userService;
+        }
+
+        public IActionResult Login2()
+        {
+            return View();
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public IActionResult Login2(LoginViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("Error");
+            }
+            var builder = new SqlConnectionStringBuilder()
+            {
+                DataSource = ".",
+                InitialCatalog = "TicketDb",
+                IntegratedSecurity = true,
+                MultipleActiveResultSets = true
+            };
+            //var commandText =
+            //    $"SELECT TOP(1) * FROM Users WHERE [UserName] = N'{model.UserName}'" +
+            //    $" AND [Password] = N'{@model.Password}'";
+            var commandText2 =
+                $"SELECT TOP(1) * FROM Users WHERE [UserName] = @UserName" +
+                $" AND [Password] = @Password";
+            using (var connection = new SqlConnection(builder.ConnectionString))
+            using (var command = new SqlCommand(commandText2, connection))
+            {
+                connection.Open();
+                command.Parameters.Add(new SqlParameter("@UserName", model.UserName));
+                command.Parameters.Add(new SqlParameter("@Password", model.Password));
+                var results = command.ExecuteReader();
+                if (results.Read())
+                {
+                    var avatar = results["Avatar"];
+                }
+            }
+
+            return View();
         }
 
         public async Task<IActionResult> Index()

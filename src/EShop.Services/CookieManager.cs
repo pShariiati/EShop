@@ -12,9 +12,12 @@ namespace EShop.Services
             _contextAccessor = contextAccessor;
         }
 
-        public void Add(string cookieName, string cookieValue)
+        public void Add(string cookieName, string cookieValue, CookieOptions options = null)
         {
-            _contextAccessor.HttpContext.Response.Cookies.Append(cookieName, cookieValue);
+            if (options is null)
+                _contextAccessor.HttpContext.Response.Cookies.Append(cookieName, cookieValue);
+            else
+                _contextAccessor.HttpContext.Response.Cookies.Append(cookieName, cookieValue, options);
         }
 
         public string GetValue(string cookieName)
