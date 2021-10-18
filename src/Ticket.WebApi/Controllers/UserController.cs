@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Drawing;
 using System.IO;
@@ -12,6 +13,7 @@ using EShop.Entities.WebApiEntities;
 using EShop.Services.Contracts.Identity.WebApi;
 using EShop.ViewModels.Users.WebApi;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -20,7 +22,8 @@ namespace Ticket.WebApi.Controllers
 {
     [ApiController]
     [Route("[controller]/[action]")]
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
+    [EnableCors("CustomCORS")]
     public class UserController : ControllerBase
     {
         private readonly IConfiguration _config;
@@ -37,6 +40,18 @@ namespace Ticket.WebApi.Controllers
         }
 
         [HttpGet]
+        public List<string> TestData()
+        {
+            return new List<string>()
+            {
+                "Payam Shariati",
+                "Ali Mohammadi",
+                "Sina Rezaei"
+            };
+        }
+
+        [HttpGet]
+        [DisableCors]
         public async Task<IActionResult> Index()
         {
             var users = await _userService.GetAllAsync();

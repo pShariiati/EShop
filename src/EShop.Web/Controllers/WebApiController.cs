@@ -35,6 +35,11 @@ namespace EShop.Web.Controllers
             _userService = userService;
         }
 
+        public IActionResult GetDataWithAjax()
+        {
+            return View();
+        }
+
         public IActionResult Login2()
         {
             return View();

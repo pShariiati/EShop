@@ -1,4 +1,5 @@
-﻿using EShop.Services.Contracts.Identity.WebApi;
+﻿using System.Collections.Generic;
+using EShop.Services.Contracts.Identity.WebApi;
 using EShop.ViewModels.Account.WebApi;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;

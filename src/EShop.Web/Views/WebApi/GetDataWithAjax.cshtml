@@ -1,0 +1,16 @@
+﻿@{
+    ViewData["Title"] = "گرفتن اطلاعات با ajax";
+}
+
+@section Scripts
+{
+    <script>
+        $.ajax({
+            url:'https://localhost:5003/user/TestData',
+            type: 'GET',
+            success: function(result) {
+                console.log(result);
+            }
+        });
+    </script>
+}

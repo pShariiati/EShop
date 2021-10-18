@@ -8,6 +8,7 @@ using EShop.ViewModels.Application;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -30,6 +31,16 @@ namespace Ticket.WebApi
         {
             services.Configure<ConnectionStringsModel>(Configuration.GetSection("ConnectionStrings"));
             services.AddCustomServicesForWebApi();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CustomCORS",
+                    builder =>
+                    {
+                        builder.WithOrigins("https://localhost:5001")
+                            .WithMethods(HttpMethods.Get, HttpMethods.Post)
+                            .AllowAnyHeader();
+                    });
+            });
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -86,6 +97,8 @@ namespace Ticket.WebApi
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
+
+            //app.UseCors("CustomCORS");
 
             app.UseAuthentication();
             app.UseAuthorization();
