@@ -51,10 +51,18 @@ namespace EShop.Web.Areas.Admin.Controllers
             return View(model);
         }
 
-        [HttpPost]
-        public IActionResult CheckRoleName(string name)
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<IActionResult> CheckRoleNameForAdd(string name)
         {
-            return Json(true);
+            var isRoleExists = await _roleManagerService.RoleExistsAsync(name);
+            return Json(!isRoleExists);
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<IActionResult> CheckRoleNameForEdit(string name, int id)
+        {
+            var isRoleExists = await _roleManagerService.IsRoleExistsForEdit(id, name);
+            return Json(!isRoleExists);
         }
 
         public async Task<IActionResult> Edit(int id)

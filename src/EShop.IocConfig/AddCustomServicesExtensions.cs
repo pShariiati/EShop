@@ -88,6 +88,7 @@ namespace EShop.IocConfig
                 .AddRoleStore<RoleStoreService>()
                 .AddRoleManager<RoleManagerService>()
                 .AddSignInManager<SignInManagerService>()
+                .AddErrorDescriber<CustomIdentityErrorDescriber>()
                 //.AddEntityFrameworkStores<EShopDbContext>()
                 .AddDefaultTokenProviders();
             services.Configure<SecurityStampValidatorOptions>(options =>
@@ -121,7 +122,7 @@ namespace EShop.IocConfig
         {
             passwordOptions.RequireDigit = false;
             passwordOptions.RequireLowercase = false;
-            passwordOptions.RequireUppercase = false;
+            passwordOptions.RequireUppercase = true;
             passwordOptions.RequireNonAlphanumeric = false;
         }
     }

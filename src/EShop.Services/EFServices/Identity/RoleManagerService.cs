@@ -63,6 +63,10 @@ namespace EShop.Services.EFServices.Identity
                 .Where(x => !x.UserRoles.Any())
                 .SingleOrDefaultAsync(x => x.Id == id);
 
+        public Task<bool> IsRoleExistsForEdit(int id, string name)
+            => _roles.Where(x => x.Name == name)
+                .AnyAsync(x => x.Id != id);
+
         public Task<List<string>> GetRoleNamesAsync()
             => _roles.Select(x => x.Name).ToListAsync();
     }

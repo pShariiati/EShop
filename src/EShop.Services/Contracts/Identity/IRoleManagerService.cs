@@ -40,6 +40,8 @@ namespace EShop.Services.Contracts.Identity
 
         #region CustomMethods
 
+        Task<bool> IsRoleExistsForEdit(int id, string name);
+
         Task<List<string>> GetRoleNamesAsync();
 
         Task<bool> CheckRolesAsync(List<string> roles);
