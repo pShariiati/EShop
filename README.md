@@ -5,8 +5,10 @@
 <br>
 این مخزن برای کاملترین دوره آموزشی ساخت فروشگاه اینترنتی است.
 <br>
-<a target="_blank" href="https://instagram.com/payam_shariatii">ارتباط با مدرس</a>
+<a href="https://instagram.com/payam_shariatii">ارتباط با مدرس</a>
 <h2>ویژگی های پروژه</h2>
-<p>شخصی سازی کامل سیستم Identity</p>
+<ul>
+<li>شخصی سازی کامل سیستم Identity</li>
+</ul>
 
 </div>
