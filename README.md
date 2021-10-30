@@ -1,16 +1,11 @@
 <div dir="rtl">
 
-  <br>
-  <h1>کاملترین دوره آموزشی فروشگاه اینترنتی پیشرفته با قابلیت چند فروشندگی</h1>
-  <br>
-  این پروژه با NET 6. و Bootstrap RTL ورژن 5 نوشته شده است.
-  <br>
-  این مخزن برای کاملترین دوره آموزشی ساخت فروشگاه اینترنتی است.
-  <br>
-  <a href="https://instagram.com/payam_shariatii">ارتباط با مدرس</a>
-  <h2>ویژگی های پروژه</h2>
-  <ul>
-    <li>شخصی سازی کامل سیستم Identity</li>
-  </ul>
-
+## EShop
+<br>
+فروشگاه اینترنتی
+<br>
+این پروژه بخشی از دوره آموزشی مقدماتی تکمیلی ASP.NET Core 6 میباشد.
+لینک دوره :
+<br>
+<a target="_blank" href="https://www.youtube.com/watch?v=ecAAyY6qrMM&list=PLTZjSQJaS1eEKC86IJxHBB46A799d969I">https://www.youtube.com/watch?v=ecAAyY6qrMM&list=PLTZjSQJaS1eEKC86IJxHBB46A799d969I</a>
 </div>
