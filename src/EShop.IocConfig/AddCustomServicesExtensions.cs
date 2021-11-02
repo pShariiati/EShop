@@ -24,6 +24,7 @@ namespace EShop.IocConfig
 {
     public static class AddCustomServicesExtensions
     {
+        public const string EmailConfirmationTokenProviderName = "ConfirmEmail";
         public static IServiceCollection AddCustomServices(this IServiceCollection services)
         {
             var provider = services.BuildServiceProvider();
@@ -69,6 +70,8 @@ namespace EShop.IocConfig
             services.AddScoped<IUserServiceWebApi, UserServiceWebApi>();
             services.AddScoped<IHttpClientService, HttpClientService>();
             services.AddScoped<IRijndaelEncryption, RijndaelEncryption>();
+
+            services.AddConfirmEmailDataProtectorTokenOptions();
             services.AddIdentity<User, Role>(identityOptions =>
                 {
                     SetPasswordOptions(identityOptions.Password);
@@ -90,7 +93,8 @@ namespace EShop.IocConfig
                 .AddSignInManager<SignInManagerService>()
                 .AddErrorDescriber<CustomIdentityErrorDescriber>()
                 //.AddEntityFrameworkStores<EShopDbContext>()
-                .AddDefaultTokenProviders();
+                .AddDefaultTokenProviders()
+                .AddTokenProvider<ConfirmEmailDataProtectorTokenProvider<User>>(EmailConfirmationTokenProviderName);
             services.Configure<SecurityStampValidatorOptions>(options =>
             {
                 options.ValidationInterval = TimeSpan.Zero;
@@ -111,6 +115,20 @@ namespace EShop.IocConfig
 
             return services;
         }
+
+        private static void AddConfirmEmailDataProtectorTokenOptions(this IServiceCollection services)
+        {
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Tokens.EmailConfirmationTokenProvider = EmailConfirmationTokenProviderName;
+            });
+
+            services.Configure<ConfirmEmailDataProtectionTokenProviderOptions>(options =>
+            {
+                options.TokenLifespan = TimeSpan.FromDays(3);
+            });
+        }
+
         public static IServiceCollection AddRazorViewRenderer(this IServiceCollection services)
         {
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
