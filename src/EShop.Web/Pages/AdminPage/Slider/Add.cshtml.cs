@@ -5,51 +5,47 @@ using EShop.DataLayer.Context;
 using EShop.Services.Contracts;
 using EShop.ViewModels.Sliders;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.IO;
-using System.Threading.Tasks;
 
-namespace EShop.Web.Pages.AdminPage.Slider
+namespace EShop.Web.Pages.AdminPage.Slider;
+
+public class AddModel : BasePage
 {
-    public class AddModel : BasePage
+    private readonly IProductService _productService;
+    private readonly ISliderService _sliderService;
+    private IUnitOfWork _uow;
+    public AddSliderViewModel Slider { get; set; }
+
+    public AddModel(IProductService productService, ISliderService sliderService, IUnitOfWork uow)
     {
-        private readonly IProductService _productService;
-        private readonly ISliderService _sliderService;
-        private IUnitOfWork _uow;
-        public AddSliderViewModel Slider { get; set; }
+        _productService = productService;
+        _sliderService = sliderService;
+        _uow = uow;
+    }
 
-        public AddModel(IProductService productService, ISliderService sliderService, IUnitOfWork uow)
-        {
-            _productService = productService;
-            _sliderService = sliderService;
-            _uow = uow;
-        }
+    public async Task OnGetAsync()
+    {
+        ViewData["Products"] = (await _productService.GetProductForComboBox()).CreateSelectListItem();
+    }
 
-        public async Task OnGetAsync()
+    public async Task<IActionResult> OnPostAsync(AddSliderViewModel slider)
+    {
+        if (!ModelState.IsValid)
         {
-            ViewData["Products"] = (await _productService.GetProductForComboBox()).CreateSelectListItem();
+            ViewData["Products"] = (await _productService.GetProductForComboBox()).CreateSelectListItem(selectedItem: slider.ProductId);
+            ModelState.AddModelError(string.Empty, PublicConstantStrings.ModelStateErrorMessage);
+            return Page();
         }
-
-        public async Task<IActionResult> OnPostAsync(AddSliderViewModel slider)
+        var imageExtension = Path.GetExtension(slider.Image.FileName);
+        var imageName = Guid.NewGuid().ToString("N");
+        slider.Image.SaveImage(imageName, imageExtension, "sliders");
+        await _sliderService.AddAsync(new Entities.Slider()
         {
-            if (!ModelState.IsValid)
-            {
-                ViewData["Products"] = (await _productService.GetProductForComboBox()).CreateSelectListItem(selectedItem: slider.ProductId);
-                ModelState.AddModelError(string.Empty, PublicConstantStrings.ModelStateErrorMessage);
-                return Page();
-            }
-            var imageExtension = Path.GetExtension(slider.Image.FileName);
-            var imageName = Guid.NewGuid().ToString("N");
-            slider.Image.SaveImage(imageName, imageExtension, "sliders");
-            await _sliderService.AddAsync(new Entities.Slider()
-            {
-                FirstTitle = slider.FirstTitle,
-                SecondTitle = slider.SecondTitle,
-                ProductId = slider.ProductId,
-                Image = imageName + imageExtension
-            });
-            await _uow.SaveChangesAsync();
-            return RedirectToPage("./Index");
-        }
+            FirstTitle = slider.FirstTitle,
+            SecondTitle = slider.SecondTitle,
+            ProductId = slider.ProductId,
+            Image = imageName + imageExtension
+        });
+        await _uow.SaveChangesAsync();
+        return RedirectToPage("./Index");
     }
 }

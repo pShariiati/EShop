@@ -1,12 +1,9 @@
-﻿using System.Net.Http;
-using System.Net.Mime;
-using System.Threading.Tasks;
+﻿using System.Net.Mime;
 
-namespace EShop.Services.Contracts
+namespace EShop.Services.Contracts;
+
+public interface IHttpClientService
 {
-    public interface IHttpClientService
-    {
-        Task<HttpResponseMessage> SendAsync(string url, HttpMethod method, string authorizationToken = null,
-            string content = "", string mediaType = MediaTypeNames.Application.Json);
-    }
+    Task<HttpResponseMessage> SendAsync(string url, HttpMethod method, string authorizationToken = null,
+        string content = "", string mediaType = MediaTypeNames.Application.Json);
 }

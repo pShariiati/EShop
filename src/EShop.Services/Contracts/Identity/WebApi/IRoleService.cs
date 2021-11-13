@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-using EShop.Entities.WebApiEntities;
+﻿using EShop.Entities.WebApiEntities;
 
-namespace EShop.Services.Contracts.Identity.WebApi
+namespace EShop.Services.Contracts.Identity.WebApi;
+
+public interface IRoleService : IGenericService<Role>
 {
-    public interface IRoleService : IGenericService<Role>
-    {
-        List<Role> GetRolesBy(List<string> roles);
-    }
+    List<Role> GetRolesBy(List<string> roles);
 }

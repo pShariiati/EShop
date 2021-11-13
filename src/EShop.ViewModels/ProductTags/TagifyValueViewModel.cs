@@ -1,7 +1,6 @@
-﻿namespace EShop.ViewModels.ProductTags
+﻿namespace EShop.ViewModels.ProductTags;
+
+public class TagifyValueViewModel
 {
-    public class TagifyValueViewModel
-    {
-        public string Value { get; set; }
-    }
+    public string Value { get; set; }
 }

@@ -1,18 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace EShop.DataLayer.Context
+namespace EShop.DataLayer.Context;
+
+public interface IUnitOfWork : IDisposable
 {
-    public interface IUnitOfWork : IDisposable
-    {
-        DbSet<TEntity> Set<TEntity>() where TEntity : class;
+    DbSet<TEntity> Set<TEntity>() where TEntity : class;
 
-        void MarkAsDeleted<TEntity>(TEntity entity);
+    void MarkAsDeleted<TEntity>(TEntity entity);
 
-        int SaveChanges();
+    int SaveChanges();
 
-        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
-    }
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

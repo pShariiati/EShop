@@ -1,22 +1,21 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace EShop.ViewModels.Products
+namespace EShop.ViewModels.Products;
+
+public enum ProductSearchConditionEnum
 {
-    public enum ProductSearchConditionEnum
-    {
-        [Display(Name = "پر فروشترین")]
-        BestSelling,
+    [Display(Name = "پر فروشترین")]
+    BestSelling,
 
-        [Display(Name = "جدید ترین")]
-        Newest,
+    [Display(Name = "جدید ترین")]
+    Newest,
 
-        [Display(Name = "قدیمی ترین")]
-        Oldest,
+    [Display(Name = "قدیمی ترین")]
+    Oldest,
 
-        [Display(Name = "ارزانترین")]
-        Cheapest,
+    [Display(Name = "ارزانترین")]
+    Cheapest,
 
-        [Display(Name = "گرانترین")]
-        MostExpensive
-    }
+    [Display(Name = "گرانترین")]
+    MostExpensive
 }

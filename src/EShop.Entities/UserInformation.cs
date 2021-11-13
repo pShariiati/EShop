@@ -1,32 +1,30 @@
 ﻿using EShop.Entities.Identity;
-using System;
 
-namespace EShop.Entities
+namespace EShop.Entities;
+
+public class UserInformation : BaseEntity
 {
-    public class UserInformation : BaseEntity
-    {
-        #region Fields
+    #region Fields
 
-        public string FullName { get; set; }
-        public DateTime BirthDate { get; set; }
-        public string NationalCode { get; set; }
-        public EyeColor EyeColor { get; set; }
-        public int UserId { get; set; }
+    public string FullName { get; set; }
+    public DateTime BirthDate { get; set; }
+    public string NationalCode { get; set; }
+    public EyeColor EyeColor { get; set; }
+    public int UserId { get; set; }
 
-        #endregion
+    #endregion
 
-        #region Relations
+    #region Relations
 
-        public User User { get; set; }
+    public User User { get; set; }
 
-        #endregion
-    }
+    #endregion
+}
 
-    public enum EyeColor : byte
-    {
-        Green,
-        Blue,
-        Black,
-        Brown
-    }
+public enum EyeColor : byte
+{
+    Green,
+    Blue,
+    Black,
+    Brown
 }

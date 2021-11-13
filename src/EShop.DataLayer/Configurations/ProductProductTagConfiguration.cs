@@ -2,13 +2,12 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace EShop.DataLayer.Configurations
+namespace EShop.DataLayer.Configurations;
+
+public class ProductProductTagConfiguration : IEntityTypeConfiguration<ProductProductTag>
 {
-    public class ProductProductTagConfiguration : IEntityTypeConfiguration<ProductProductTag>
+    public void Configure(EntityTypeBuilder<ProductProductTag> builder)
     {
-        public void Configure(EntityTypeBuilder<ProductProductTag> builder)
-        {
-            builder.HasKey(x => new { x.ProductId, x.ProductTagId });
-        }
+        builder.HasKey(x => new { x.ProductId, x.ProductTagId });
     }
 }

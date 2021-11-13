@@ -1,9 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿namespace EShop.Services.Contracts;
 
-namespace EShop.Services.Contracts
+public interface IEmailSenderService
 {
-    public interface IEmailSenderService
-    {
-        Task SendEmailAsync(string to, string subject, string body);
-    }
+    Task SendEmailAsync(string to, string subject, string body);
 }

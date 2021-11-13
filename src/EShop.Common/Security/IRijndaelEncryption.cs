@@ -1,8 +1,7 @@
-﻿namespace EShop.Common.Security
+﻿namespace EShop.Common.Security;
+
+public interface IRijndaelEncryption
 {
-    public interface IRijndaelEncryption
-    {
-        string Encryption(string plainText);
-        string Decryption(string cipherText);
-    }
+    string Encryption(string plainText);
+    string Decryption(string cipherText);
 }

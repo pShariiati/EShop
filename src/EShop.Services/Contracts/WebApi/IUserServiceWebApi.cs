@@ -1,13 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using EShop.ViewModels.TestWebApi;
+﻿using EShop.ViewModels.TestWebApi;
 
-namespace EShop.Services.Contracts.WebApi
+namespace EShop.Services.Contracts.WebApi;
+
+public interface IUserServiceWebApi
 {
-    public interface IUserServiceWebApi
-    {
-        Task<OperationResult<string>> Add(AddUserViewModel input);
-        Task<OperationResult<List<ShowUserViewModel>>> GetAllAsync();
-        Task<OperationResult<string>> Login(LoginViewModel input);
-    }
+    Task<OperationResult<string>> Add(AddUserViewModel input);
+    Task<OperationResult<List<ShowUserViewModel>>> GetAllAsync();
+    Task<OperationResult<string>> Login(LoginViewModel input);
 }

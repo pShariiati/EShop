@@ -1,9 +1,8 @@
-﻿namespace EShop.ViewModels.Account
-{
-    public class ForgotPasswordEmailViewModel
-    {
-        public string UserName { get; set; }
+﻿namespace EShop.ViewModels.Account;
 
-        public string ResetPasswordCode { get; set; }
-    }
+public class ForgotPasswordEmailViewModel
+{
+    public string UserName { get; set; }
+
+    public string ResetPasswordCode { get; set; }
 }

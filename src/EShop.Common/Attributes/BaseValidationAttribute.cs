@@ -1,23 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace EShop.Common.Attributes
+namespace EShop.Common.Attributes;
+
+[AttributeUsage(AttributeTargets.Property)]
+public class BaseValidationAttribute : ValidationAttribute
 {
-    [AttributeUsage(AttributeTargets.Property)]
-    public class BaseValidationAttribute : ValidationAttribute
+    protected bool MergeAttribute(IDictionary<string, string> attributes, string key, string value)
     {
-        protected bool MergeAttribute(IDictionary<string, string> attributes, string key, string value)
+        if (attributes.ContainsKey(key))
         {
-            if (attributes.ContainsKey(key))
-            {
-                return false;
-            }
-            attributes.Add(key, value);
-            return true;
+            return false;
         }
+        attributes.Add(key, value);
+        return true;
     }
 }

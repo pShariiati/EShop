@@ -1,16 +1,13 @@
 ﻿using EShop.Entities;
 using EShop.ViewModels.Sliders;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
-namespace EShop.Services.Contracts
+namespace EShop.Services.Contracts;
+
+public interface ISliderService : IGenericService<Slider>
 {
-    public interface ISliderService : IGenericService<Slider>
-    {
-        Task<List<ShowSliderViewModel>> GetPreviewAsync();
+    Task<List<ShowSliderViewModel>> GetPreviewAsync();
 
-        Task<EditSliderViewModel> GetForEdit(int id);
+    Task<EditSliderViewModel> GetForEdit(int id);
 
-        Task<List<ShowSliderInFrontViewModel>> GetSlidersForFront();
-    }
+    Task<List<ShowSliderInFrontViewModel>> GetSlidersForFront();
 }

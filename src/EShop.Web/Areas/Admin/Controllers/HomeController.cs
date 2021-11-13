@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace EShop.Web.Areas.Admin.Controllers
+namespace EShop.Web.Areas.Admin.Controllers;
+
+[Area(AreaConstants.AdminArea)]
+public class HomeController : BaseController
 {
-    [Area(AreaConstants.AdminArea)]
-    public class HomeController : BaseController
+    public IActionResult Index()
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
+        return View();
     }
 }

@@ -1,21 +1,19 @@
 ﻿using EShop.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
-namespace EShop.Web.ViewComponents
+namespace EShop.Web.ViewComponents;
+
+public class NewestProductsViewComponent : ViewComponent
 {
-    public class NewestProductsViewComponent : ViewComponent
+    private readonly IProductService _productService;
+
+    public NewestProductsViewComponent(IProductService productService)
     {
-        private readonly IProductService _productService;
+        _productService = productService;
+    }
 
-        public NewestProductsViewComponent(IProductService productService)
-        {
-            _productService = productService;
-        }
-
-        public async Task<IViewComponentResult> InvokeAsync(int? excludeId)
-        {
-            return View("", await _productService.GetNewestProductAsync(excludeId));
-        }
+    public async Task<IViewComponentResult> InvokeAsync(int? excludeId)
+    {
+        return View("", await _productService.GetNewestProductAsync(excludeId));
     }
 }

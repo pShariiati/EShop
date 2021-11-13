@@ -4,18 +4,17 @@ using EShop.Services.Contracts.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-namespace EShop.Services.EFServices.Identity
+namespace EShop.Services.EFServices.Identity;
+
+public class UserStoreService
+: UserStore<User, Role, EShopDbContext, int, UserClaim, UserRole, UserLogin, UserToken, RoleClaim>,
+    IUserStoreService
 {
-    public class UserStoreService
-    : UserStore<User, Role, EShopDbContext, int, UserClaim, UserRole, UserLogin, UserToken, RoleClaim>,
-        IUserStoreService
+    public UserStoreService(
+        IUnitOfWork uow,
+        IdentityErrorDescriber describer = null
+        )
+    : base((EShopDbContext)uow, describer)
     {
-        public UserStoreService(
-            IUnitOfWork uow,
-            IdentityErrorDescriber describer = null
-            )
-        : base((EShopDbContext)uow, describer)
-        {
-        }
     }
 }

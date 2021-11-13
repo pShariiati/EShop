@@ -2,13 +2,12 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace EShop.DataLayer.Configurations
+namespace EShop.DataLayer.Configurations;
+
+public class RoleConfiguration : IEntityTypeConfiguration<Role>
 {
-    public class RoleConfiguration : IEntityTypeConfiguration<Role>
+    public void Configure(EntityTypeBuilder<Role> builder)
     {
-        public void Configure(EntityTypeBuilder<Role> builder)
-        {
-            builder.ToTable("Roles");
-        }
+        builder.ToTable("Roles");
     }
 }

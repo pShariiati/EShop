@@ -1,21 +1,20 @@
-﻿namespace EShop.Entities
+﻿namespace EShop.Entities;
+
+public class CartDetail : BaseEntity
 {
-    public class CartDetail : BaseEntity
-    {
-        #region Fields
+    #region Fields
 
-        public int ProductId { get; set; }
-        public int CartId { get; set; }
-        public int Count { get; set; }
-        public int Price { get; set; }
+    public int ProductId { get; set; }
+    public int CartId { get; set; }
+    public int Count { get; set; }
+    public int Price { get; set; }
 
-        #endregion
+    #endregion
 
-        #region Relations
+    #region Relations
 
-        public Product Product { get; set; }
-        public Cart Cart { get; set; }
+    public Product Product { get; set; }
+    public Cart Cart { get; set; }
 
-        #endregion
-    }
+    #endregion
 }

@@ -1,22 +1,21 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace EShop.Entities
+namespace EShop.Entities;
+
+[Table("ProductsProductTags")]
+public class ProductProductTag
 {
-    [Table("ProductsProductTags")]
-    public class ProductProductTag
-    {
-        #region Fields
+    #region Fields
 
-        public int ProductId { get; set; }
-        public int ProductTagId { get; set; }
+    public int ProductId { get; set; }
+    public int ProductTagId { get; set; }
 
-        #endregion
+    #endregion
 
-        #region Relations
+    #region Relations
 
-        public Product Product { get; set; }
-        public ProductTag ProductTag { get; set; }
+    public Product Product { get; set; }
+    public ProductTag ProductTag { get; set; }
 
-        #endregion
-    }
+    #endregion
 }

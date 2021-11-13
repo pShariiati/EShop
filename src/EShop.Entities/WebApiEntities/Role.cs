@@ -1,21 +1,19 @@
-﻿using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
-namespace EShop.Entities.WebApiEntities
+namespace EShop.Entities.WebApiEntities;
+
+[Index(nameof(Title), IsUnique = true)]
+public class Role : BaseEntity
 {
-    [Index(nameof(Title), IsUnique = true)]
-    public class Role : BaseEntity
-    {
-        #region Fields
+    #region Fields
 
-        public string Title { get; set; }
+    public string Title { get; set; }
 
-        #endregion
+    #endregion
 
-        #region Relations
+    #region Relations
 
-        public ICollection<User> Users { get; set; }
+    public ICollection<User> Users { get; set; }
 
-        #endregion
-    }
+    #endregion
 }

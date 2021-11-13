@@ -1,10 +1,8 @@
 ﻿using EShop.Entities;
-using System.Collections.Generic;
 
-namespace EShop.Services.Contracts
+namespace EShop.Services.Contracts;
+
+public interface IProductTagService : IGenericService<ProductTag>
 {
-    public interface IProductTagService : IGenericService<ProductTag>
-    {
-        List<ProductTag> GetTags(List<string> splittedTags);
-    }
+    List<ProductTag> GetTags(List<string> splittedTags);
 }

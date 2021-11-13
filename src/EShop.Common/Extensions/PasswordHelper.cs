@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
-using Microsoft.Extensions.Configuration;
 
-namespace EShop.Common.Extensions
+namespace EShop.Common.Extensions;
+
+public static class PasswordHelper
 {
-    public static class PasswordHelper
+    //private static readonly string secretKey2 = "evicequffyxbdsqfqwxzbqweulwbkpkrlqfujmupkqqmwvyxyraidvqywtrensxw";
+    private static readonly byte[] secretKey = new byte[]
     {
-        //private static readonly string secretKey2 = "evicequffyxbdsqfqwxzbqweulwbkpkrlqfujmupkqqmwvyxyraidvqywtrensxw";
-        private static readonly byte[] secretKey = new byte[]
-        {
             187,
             95,
             128,
@@ -76,28 +72,27 @@ namespace EShop.Common.Extensions
             30,
             42,
             20
-        };
-        public static string ToHash(this string input)
+    };
+    public static string ToHash(this string input)
+    {
+        //var secretKeyBytes = Encoding.UTF8.GetBytes(secretKey2);
+        var messageBytes = Encoding.UTF8.GetBytes(input);
+        using var hmac = new HMACSHA256(secretKey);
+        //using var hmac = new HMACSHA256(secretKeyBytes);
+        var hashedMessage = hmac.ComputeHash(messageBytes);
+        return Convert.ToBase64String(hashedMessage);
+    }
+
+    private static void GenerateKey()
+    {
+        var numbers = new List<string>();
+        for (int counter = 0; counter < 64; counter++)
         {
-            //var secretKeyBytes = Encoding.UTF8.GetBytes(secretKey2);
-            var messageBytes = Encoding.UTF8.GetBytes(input);
-            using var hmac = new HMACSHA256(secretKey);
-            //using var hmac = new HMACSHA256(secretKeyBytes);
-            var hashedMessage = hmac.ComputeHash(messageBytes);
-            return Convert.ToBase64String(hashedMessage);
+            var rnd = new Random().Next(0, 256);
+            numbers.Add(rnd + ",");
         }
 
-        private static void GenerateKey()
-        {
-            var numbers = new List<string>();
-            for (int counter = 0; counter < 64; counter++)
-            {
-                var rnd = new Random().Next(0, 256);
-                numbers.Add(rnd + ",");
-            }
-
-            var path = @"D:\a.txt";
-            File.AppendAllLines(path, numbers);
-        }
+        var path = @"D:\a.txt";
+        File.AppendAllLines(path, numbers);
     }
 }
